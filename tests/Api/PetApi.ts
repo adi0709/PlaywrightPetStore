@@ -1,5 +1,5 @@
 import { RestApi } from "../../requests/RestApi";
-import { CreatePetResponse } from "./types";
+import { CreatePetResponse } from "./PetApiTypes";
 export default class PetApi {
   static createPet(
     request: any,

@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { DATA } from "../constants/constant";
-import { CreatePetResponse } from "./Api/types";
-import PetApi from "./Api/pet.api";
+import { CreatePetResponse } from "./Api/PetApiTypes";
+import PetApi from "./Api/PetApi";
 
 test.describe.parallel("API testing", () => {
   const searchParams = new URLSearchParams();
