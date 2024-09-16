@@ -1,9 +1,5 @@
 import { RestApi } from "../requests/RestApi";
-import {
-  CreatePetResponse,
-  MultipartType,
-  UploadPetImageBodyType,
-} from "./PetApiTypes";
+import { CreatePetResponse, MultipartType } from "./PetApiTypes";
 export default class PetApi {
   static createPet(
     request: any,

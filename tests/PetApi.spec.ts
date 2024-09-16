@@ -134,7 +134,7 @@ test.describe.parallel("API testing", () => {
 
   test("Delete a Pet that doesn't exist", async ({ request }) => {
     //sending the request and saving it to response constant
-    const response = await PetApi.deletePet(request, 50);
+    const response = await PetApi.deletePet(request, 123121);
 
     //Asserting the response status to be 200
     expect(

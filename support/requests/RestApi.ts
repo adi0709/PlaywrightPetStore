@@ -1,14 +1,13 @@
 const headers = {
-  Authorization: process.env.token,
   Accept: "application/json",
+  Authorization: "special-key",
 };
 export class RestApi {
   static post(
     request: any,
     endpointUrl: string,
     data: Record<string, any>,
-    parameters?: Record<string, any>,
-    multipart?: Record<string, any>
+    parameters?: Record<string, any>
   ): Promise<any> {
     return request.post(endpointUrl, {
       data: data,
