@@ -1,6 +1,6 @@
 # **PlaywrightPetStore**
 
-This repo contains automation tests for the Pet Store API using Playwright
+This repo contains automation tests for the [Pet Store](https://petstore.swagger.io/#/pet) API using Playwright
 
 ## **#Requirments**
 
