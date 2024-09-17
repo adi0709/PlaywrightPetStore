@@ -25,4 +25,6 @@ java -version
 Execute the tests by running the following commands
 `npm run test`
 
-`npm run test-html-report` will execute the tests and a HTML test report will be displayed automatically.
+`npm run test:allure-report` will execute the tests and display the allure report automatically of the execution. (Requires Java as mentioned above)
+
+`npm run test:html-report` will execute the tests and display the default Playwright HTML report automatically of the execution.
