@@ -9,6 +9,19 @@ git clone `https://github.com/adi0709/PlaywrightPetStore.git`
 
 Make sure to update all the dependencies `npm install`
 
+Running Allure reports on the server requires the installation of Java version 8+.
+
+Install Java from https://www.java.com/en/download/help/download_options.html
+
+Add Java to environment paths
+https://www.java.com/en/download/help/path.html
+
+Verify java was installed
+
+java -version
+
+**#Executing tests and Viewing reports**
+
 Execute the tests by running the following commands
 `npm run test`
 
