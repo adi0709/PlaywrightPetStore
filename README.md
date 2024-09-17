@@ -16,7 +16,11 @@ This repo contains automation tests for the Pet Store API using Playwright
 git clone https://github.com/adi0709/PlaywrightPetStore.git
 ```
 
-- Make sure to update all the dependencies `npm install`
+- Make sure to update all the dependencies
+
+```
+npm install
+```
 
 - Install Java from https://www.java.com/en/download/help/download_options.html
 
