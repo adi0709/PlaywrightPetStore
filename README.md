@@ -45,3 +45,9 @@ npm run test
 ```javascript
 npm run test:allure-report
 ```
+
+- To execute the tests and display the Playwright HTML report automatically of the execution.
+
+```javascript
+npm run test:html-report
+```
