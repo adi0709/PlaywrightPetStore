@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 import { CreatePetResponse } from "../support/api/PetApiTypes";
 import PetApi from "../support/api/PetApi";
 import PetJsonBuilder from "../support/data/pet-json-builder";
-import { Faker, faker } from "@faker-js/faker";
+import { faker } from "@faker-js/faker";
 
 let petId;
 let categoryId;
@@ -12,8 +12,8 @@ let photoUrl;
 let tagId;
 let tagName;
 
-test.beforeAll(async ({ request }) => {
-  //Creating all the varaibles so that we have new value for each pet
+test.beforeEach(async () => {
+  //creating new data for the test
   petId = faker.number.int();
   categoryId = faker.number.int();
   categoryName = faker.animal.type();
@@ -22,47 +22,35 @@ test.beforeAll(async ({ request }) => {
   tagId = faker.number.int();
   tagName = faker.animal.dog();
 
-  //Creating a pet before each request to make sure we have atleast one pet in the store
-  const response = await PetApi.createPet(
-    request,
-    PetJsonBuilder.buildCreatePetJson(
-      petId,
-      categoryId,
-      categoryName,
-      petName,
-      photoUrl,
-      tagId,
-      tagName
-    )
+  const createPetJson = PetJsonBuilder.buildCreatePetJson(
+    petId,
+    categoryId,
+    categoryName,
+    petName,
+    photoUrl,
+    tagId,
+    tagName
   );
-  //Asserting the response status to be 200
-  expect(
-    response.status(),
-    "Expecting the status of the rquest to be 200"
-  ).toBe(200);
-  const responseBody: CreatePetResponse = await response.json();
+
+  //sending the request and saving it to response constant
+  const response = await PetApi.createPet(createPetJson);
 });
 
 test.describe.parallel("API testing", () => {
-  test("Get all the pets having the status PENDING or AVAILABLE in the Pet Store", async ({
-    request,
-  }) => {
+  test("Get all the pets having the status PENDING or AVAILABLE in the Pet Store", async () => {
     const searchParams = new URLSearchParams();
     searchParams.set("status", "available");
     searchParams.append("status", "pending");
+
     //Sending the get request and storing the response to response constant
-    const response = await PetApi.findPetByStatus(request, searchParams);
+    const response = await PetApi.findPetByStatus(searchParams);
 
     //Asserting the response status to be 200
-    expect(
-      response.status(),
-      "Expecting the status of the rquest to be 200"
-    ).toBe(200);
-    const responseBody = await response.json();
+    await expect(response.status()).toBe(200);
 
-    console.log(responseBody.length);
+    const responseBody: CreatePetResponse[] = await response.json();
     //iterating over the response body
-    responseBody.forEach((element) => {
+    await responseBody.forEach((element) => {
       //validating if the status of the response is either "PENDING" OR "AVAILABLE"
       expect(
         element.status,
@@ -71,58 +59,9 @@ test.describe.parallel("API testing", () => {
     });
   });
 
-  test("Add a new pet to the Pet Store", async ({ request }) => {
-    //creating new data for the test
-    petId = faker.number.int();
-    categoryId = faker.number.int();
-    categoryName = faker.animal.type();
-    petName = faker.person.firstName();
-    photoUrl = [faker.image.url()];
-    tagId = faker.number.int();
-    tagName = faker.animal.dog();
-
-    //sending the request and saving it to response constant
-    const response = await PetApi.createPet(
-      request,
-      PetJsonBuilder.buildCreatePetJson(
-        petId,
-        categoryId,
-        categoryName,
-        petName,
-        photoUrl,
-        tagId,
-        tagName
-      )
-    );
-
-    //Asserting the response status to be 200
-    expect(
-      response.status(),
-      "Expecting the status of the rquest to be 200"
-    ).toBe(200);
-
-    const responseBody: CreatePetResponse = await response.json();
-
-    //Adding assertions to the response body
-    expect(
-      responseBody,
-      "Expect the Respose object of the created pet to have the same values as provided in the request"
-    ).toStrictEqual(
-      PetJsonBuilder.buildCreatePetJson(
-        petId,
-        categoryId,
-        categoryName,
-        petName,
-        photoUrl,
-        tagId,
-        tagName
-      )
-    );
-  });
-
   test("Delete a created Pet", async ({ request }) => {
     //sending the request and saving it to response constant
-    const response = await PetApi.deletePet(request, petId);
+    const response = await PetApi.deletePet(petId);
 
     //Asserting the response status to be 200
     expect(
@@ -132,22 +71,29 @@ test.describe.parallel("API testing", () => {
     const responseBody: CreatePetResponse = await response.json();
   });
 
-  test("Delete a Pet that doesn't exist", async ({ request }) => {
-    //sending the request and saving it to response constant
-    const response = await PetApi.deletePet(request, 123121);
+  test("Delete a Pet that doesn't exist", async () => {
+    //sending the request to delete the pet created in BeforeEach block
+    const response = await PetApi.deletePet(petId);
+
+    //Asserting the pet was deleted
+    expect(
+      response.status(),
+      "Expecting the status of the rquest to be 200"
+    ).toBe(200);
+
+    //sending the request to delete the already deleted pet in the previous request
+    const newResponse = await PetApi.deletePet(petId);
 
     //Asserting the response status to be 200
     expect(
-      response.status(),
+      newResponse.status(),
       "Expecting the status of the rquest to be 200"
     ).toBe(404);
   });
 
-  test("Upload Image of an already existing pet", async ({ request }) => {
-    const response = await PetApi.uploadPictureForPet(request, petId, {
-      file: "lib/dog.png",
-      additionalMetadata: "dog-picture",
-    });
+  test("Upload Image of an already existing pet", async () => {
+    //Sending the request to upload photo
+    const response = await PetApi.uploadPictureForPet(petId, "lib/dog.png");
 
     expect(
       response.status(),

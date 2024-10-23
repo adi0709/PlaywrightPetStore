@@ -1,3 +1,5 @@
+import exp from "constants";
+
 export type CreatePetResponse = {
   id: number;
   name: string;
@@ -22,7 +24,24 @@ export type UploadPetImageBodyType = {
   //file: File;
 };
 
+export type DeletePetResponse = {
+  code: number;
+  type: string;
+  message: string;
+};
+
+export type UploadPetImageResponse = {
+  code: number;
+  type: string;
+  message: string;
+};
+
 export type MultipartType = {
-  file: string;
-  additionalMetadata: string;
+  file: MutlipartTypeFile;
+};
+
+export type MutlipartTypeFile = {
+  name: string;
+  mimeType: string;
+  buffer: Buffer;
 };
