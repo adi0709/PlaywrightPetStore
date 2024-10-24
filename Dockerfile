@@ -26,6 +26,9 @@ RUN npm install
 # Install Allure command-line tool globally
 RUN npm install -g allure-commandline --save-dev
 
+# Install a simple HTTP server to serve the Allure report
+RUN npm install -g http-server
+
 # Copy all files from the host machine into the container
 COPY tests /app/tests
 COPY support /app/support
@@ -44,3 +47,7 @@ EXPOSE 5252
 
 # Run the custom npm script to execute tests, generate and open Allure reports
 CMD ["npm", "run", "test:allure-report"]
+
+# Output the contents of allure-results to verify if they exist
+RUN ls -l /app/allure-results
+RUN ls -l /app/allure-report
