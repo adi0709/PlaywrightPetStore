@@ -93,7 +93,10 @@ test.describe.parallel("API testing", () => {
 
   test("Upload Image of an already existing pet", async () => {
     //Sending the request to upload photo
-    const response = await PetApi.uploadPictureForPet(petId, "lib/dog.png");
+    const response = await PetApi.uploadPictureForPet(
+      petId,
+      "resources/dog.png"
+    );
 
     expect(
       response.status(),
