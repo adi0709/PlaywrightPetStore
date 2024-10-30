@@ -93,14 +93,14 @@ java -version
 5. Run the tests and generate Allure reports:
 
 ```bash
-npm run test:allure
+npm run test:allure-report
 ```
 
 6. The report will automatically open in your default browser.
 
 ## NPM Scripts
 
-- `npm run test:allure`: Runs Playwright tests, generates Allure results, and opens the Allure report in a browser.
+- `npm run test:allure-report`: Runs Playwright tests, generates Allure results, and opens the Allure report in a browser.
 - `npm run test:html-report`: Runs Playwright tests, generates default playwright results. To view the results open playwright-report folder and access `index.html` file.
 
 ## Troubleshooting

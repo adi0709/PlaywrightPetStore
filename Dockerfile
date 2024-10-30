@@ -32,7 +32,7 @@ RUN npm install -g http-server
 # Copy all files from the host machine into the container
 COPY tests /app/tests
 COPY support /app/support
-COPY lib /app/lib
+COPY resources /app/resources
 COPY package.json /app/
 COPY playwright.config.ts /app/playwright.config.ts
 
